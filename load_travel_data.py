@@ -29,12 +29,32 @@ conn.commit()
 
 print("Data loaded successfully!")
 
-print("\nBudget countries under $70/day:")
-for row in cursor.execute("SELECT Country, CostPerDay FROM travel WHERE CostPerDay < 70;"):
+# print("\nBudget countries under $70/day:")
+# for row in cursor.execute("SELECT Country, CostPerDay FROM travel WHERE CostPerDay < 70;"):
+#     print(row)
+
+# print("\nVisa-free countries rated 4.6+:")
+# for row in cursor.execute("SELECT Country FROM travel WHERE VisaFree = 'Yes' AND Rating >= 4.6;"):
+#     print(row)
+
+print("\nTop 3 cheapest visa free countries (by cost/day):")
+for row in cursor.execute("""
+    SELECT Country, CostPerDay
+    FROM travel
+    WHERE VisaFree = 'Yes'
+    ORDER BY CostPerDay ASC
+    LIMIT 3;
+"""):
     print(row)
 
-print("\nVisa-free countries rated 4.6+:")
-for row in cursor.execute("SELECT Country FROM travel WHERE VisaFree = 'Yes' AND Rating >= 4.6;"):
+print("\nTop 3 highest rated destinations:")
+for row in cursor.execute("""
+    SELECT Country, Rating
+    FROM travel
+    ORDER BY Rating DESC
+    LIMIT 3;
+"""):
     print(row)
+
 
 conn.close()
