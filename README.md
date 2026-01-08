@@ -1,121 +1,106 @@
-# 🌍 travool: Travel Recommendations from the Command Line
+# travool — Travel Recommendations from the Command Line
 
-**travool** is a pure Python CLI tool that provides personalized travel destination recommendations based on your budget, visa requirements, and travel preferences. Results are formatted in a clean, professional table directly in your terminal.
+travool is a Python-based command-line tool that recommends travel destinations based on budget, visa requirements, and personal preferences. I built it to practice working with real data, SQL, and CLI design — and to create something I’d actually use.
 
----
+Instead of interactive prompts, travool is fully flag-driven, making it easy to query, filter, and extend.
 
-## ✨ Features
+What travool does
 
-- Filter destinations by:
-  - Maximum daily cost
-  - Visa-free access
-  - Minimum traveler rating
-- Outputs clean, tabulated results using `tabulate`
-- Built on a real SQLite database from CSV data
-- Fully CLI-driven, with no interactive prompts
+Filters destinations by:
 
----
+Daily cost
 
-## ⚙️ Installation
+Visa-free access
 
-1. Clone this repo or download the files
+Traveler rating
 
-2. Install dependencies:
+Queries a real SQLite database built from CSV data
 
-```bash
-pip install pandas tabulate
-```
+Displays results in clean, readable tables directly in the terminal
 
-3. Load the data into the database:
+Designed to be simple, predictable, and easy to modify
 
-```bash
-python load_travel_data.py
-```
+How it works
 
-4. Run the CLI app:
+The data flow looks like this:
 
-```bash
+CSV → pandas → SQLite → SQL queries → pandas → terminal output
+
+
+Each step is intentionally kept simple and debuggable.
+
+## Project Structure
+.
+├── travel_data.csv          # Raw destination data
+├── load_travel_data.py      # Loads and cleans data into SQLite
+├── travel.db                # SQLite database
+├── travel_final_cli.py      # CLI entry point (argparse-based)
+
+Example Usage
 python travel_final_cli.py --max-cost 100 --visa-free yes --min-rating 4.5
-```
 
----
 
-## ⚖️ Example Usage
+Example output:
 
-```bash
-python travel_final_cli.py --max-cost 75 --visa-free yes --min-rating 4.6
-```
-
-Output:
-
-```
-🔍 Running query with filters:
-  Max Cost: 75
-  Visa Free: yes
-  Min Rating: 4.6
-
-📊 Matching Results:
+Matching Results:
 ╒══════════════╤══════════════╤═════════════╤══════════╕
 │ Country      │ CostPerDay   │ VisaFree    │ Rating   │
 ╘══════════════╧══════════════╧═════════════╧══════════╛
 │ Portugal     │ 75           │ Yes         │ 4.8      │
 │ Thailand     │ 65           │ Yes         │ 4.7      │
-```
 
----
+## What I added & improved over time
 
-## 📚 Project Structure
+This project evolved as I worked on it. Along the way, I:
 
-```
-.
-├── travel_data.csv         # Raw destination data
-├── load_travel_data.py     # Loads CSV into SQLite DB
-├── travel.db               # SQLite database file
-├── travel_final_cli.py     # CLI app for querying destinations
-```
+Refactored the CLI to rely fully on argparse
 
----
+Improved SQL querying using parameterized queries
 
-## ⚠️ Things I Struggled With (and Solved)
+Made filtering logic more flexible and readable
 
-| Problem                                           | What I Learned                                                                          |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Converting from interactive `input()` to full CLI | Use `argparse` and skip prompts for missing args                                        |
-| Argument errors                                   | You must pass flags like `--visa-free yes` or it will throw a "too few arguments" error |
-| Dynamic SQL                                       | Use `WHERE 1=1` as a base, then add conditions                                          |
-| SQLite insertion                                  | `executemany()` is used to insert multiple rows efficiently                             |
-| Display formatting                                | `tabulate` makes CLI tables much easier to read                                         |
+Cleaned up data loading and validation
 
-These are all things I now fully understand and could explain in an interview or modify later.
+Improved output formatting using tabulate
 
----
+Reorganized code for clarity and maintainability
 
-## 🚀 Future Enhancements
+Things I struggled with (and learned)
 
-- Add `--best-month` filter
-- Export results to CSV with `--export`
-- Add "Top 5 Cheapest" and "Top 5 Highest Rated" quick commands
-- Streamlit version for GUI users
+Moving from interactive input to a proper CLI
 
----
+Building dynamic SQL queries safely
 
-## ✨ Why I Built This
+Designing flags that feel intuitive to use
 
-I wanted to deepen my knowledge of SQL, Python, and real-world data processing. Instead of just tutorials, I built **travool** from scratch — it solidified my understanding and became a tool I would genuinely use myself.
+Debugging data issues between CSV, SQLite, and Python
 
-- CLI tools with `argparse`
-- Dynamic SQL filtering
-- CSV ⇒ pandas ⇒ SQLite ⇒ pandas ⇒ terminal
-- Clean, production-quality formatting
+Formatting terminal output so it’s actually readable
 
-I now feel confident reading, writing, and debugging projects like this on my own.
+## Why I built this
 
----
+I wanted a project that felt practical, not academic.
 
-## 😎 Final Thoughts
+## Travool helped me:
 
-**travool** isn’t just a travel tool, it’s a showcase of practical Python and SQL skills. It’s simple, flexible, and easy to build on. Whether you want to add more data, filters, or even a GUI, you’re starting from a solid foundation.
+Get more confident with SQL and databases
 
----
+Practice writing non-trivial Python scripts
 
+Learn how to design a clean CLI interface
 
+Work through real debugging instead of tutorials
+
+## Possible next steps
+
+Add CSV export support
+
+Add preset queries (cheapest, highest rated)
+
+Build a lightweight GUI version
+
+Expand the dataset
+
+## Final Thoughts
+
+This project isn’t meant to be flashy — it’s meant to be solid. I can explain every line of it, extend it confidently, and defend the design choices I mad
